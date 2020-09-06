@@ -21,18 +21,18 @@ Implement an endpoint `/api/fetch` that returns the contents of `data.csv` as JS
 import pandas as pd #used to read the CSV
 from flask import jsonify, request
 
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True #formats the json file into the required format
 
 df = pd.read_csv('data.csv') #reads the CSV and sets it to a varible
 df['name'] = df['first_name'].map(str) + ' ' + df['last_name'].map(str)  #Concatenates the first name and last name column to one colum with the person's full name.
 drop_columns = ['id', 'first_name', 'last_name']
-df = df.drop(drop_columns, axis = 1)
+df = df.drop(drop_columns, axis = 1) #drops the columns not needed to display
 
 new_dict = df.to_dict(orient = 'records') #need to convert string to a dictionary as jsonify accepts a dictionary data type
 
-@app.route('/api/fetch', methods=['GET'])
+@app.route('/api/fetch', methods=['GET']) #create the route for the backend
 def makeJson():
-    if request.method == 'GET':
+    if request.method == 'GET': 
         return jsonify(new_dict)
 
 
